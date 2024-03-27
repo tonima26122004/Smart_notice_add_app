@@ -1,4 +1,4 @@
-package com.example.krishakai;
+package com.example.notice;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "415928526230",
+    "project_id": "noticecollege-9cb35",
+    "storage_bucket": "noticecollege-9cb35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415928526230:android:afe5871ecdb56f55e8a9b7",
+        "android_client_info": {
+          "package_name": "com.example.notice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZrQaexYnGeG8MLEYO-H8FMEw8Wqn2DZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415928526230:android:cfefd24b0306bed3e8a9b7",
+        "android_client_info": {
+          "package_name": "com.example.singup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZrQaexYnGeG8MLEYO-H8FMEw8Wqn2DZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

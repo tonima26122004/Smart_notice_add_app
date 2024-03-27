@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KAI"
+rootProject.name = "Notice"
 include(":app")
  

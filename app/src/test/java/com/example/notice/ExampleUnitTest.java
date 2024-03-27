@@ -1,4 +1,4 @@
-package com.example.kai;
+package com.example.notice;
 
 import org.junit.Test;
 
