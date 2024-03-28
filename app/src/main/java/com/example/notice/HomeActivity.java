@@ -16,12 +16,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -56,16 +57,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    //output
+
+    // Display notice and count
     private void display() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference noticeRef = database.getReference("Notice");
-        DatabaseReference countRef = database.getReference("human_counter"); // Assuming count is stored under "Count" node
+        DatabaseReference countRef = database.getReference("human_counter");
 
         TextView noticeText = findViewById(R.id.notice);
-        TextView countText = findViewById(R.id.count_num); // Assuming you have a TextView with id "count" in your layout
+        TextView countText = findViewById(R.id.count_num);
 
-        // Read notice from Firebase
         noticeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -79,7 +80,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Read count from Firebase
         countRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -95,14 +95,23 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    //input
+    // Add notice and reset counter
     private void addNotice(String note) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference noticeRef = database.getReference("Notice");
-        noticeRef.setValue(note);
+        DatabaseReference countRef = database.getReference("human_counter");
+
+        noticeRef.setValue(note).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // Reset counter to 0
+                    countRef.setValue(0);
+                    Log.d(TAG, "Notice added successfully.");
+                } else {
+                    Log.e(TAG, "Failed to add notice: " + task.getException().getMessage());
+                }
+            }
+        });
     }
-
-
-
 }
-
