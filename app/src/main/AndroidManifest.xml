@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Notice"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/notisync_logo"
+        android:label="NotiSync"
+        android:roundIcon="@drawable/notisync_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Notice"
         tools:targetApi="31">

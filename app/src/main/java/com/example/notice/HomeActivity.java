@@ -27,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
-    private long previousCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class HomeActivity extends AppCompatActivity {
                 Long count = snapshot.getValue(Long.class);
                 Log.d(TAG, "Count: " + count);
                 countText.setText(String.valueOf(count));
-                previousCount = count; // Update previous count
             }
 
             @Override
@@ -97,50 +95,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Add notice and update counter
+    // Add notice and reset counter
     private void addNotice(String note) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference noticeRef = database.getReference("Notice");
         DatabaseReference countRef = database.getReference("human_counter");
 
-        // Get the current count value
-        countRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        noticeRef.setValue(note).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Long currentCount = snapshot.getValue(Long.class);
-                if (currentCount != null) {
-                    // Subtract the previous count from the current count
-                    long newCount = currentCount - previousCount;
-
-                    // Set the new notice
-                    noticeRef.setValue(note).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // Set the new count
-                                countRef.setValue(newCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "Notice added successfully.");
-                                        } else {
-                                            Log.e(TAG, "Failed to set count: " + task.getException().getMessage());
-                                        }
-                                    }
-                                });
-                            } else {
-                                Log.e(TAG, "Failed to add notice: " + task.getException().getMessage());
-                            }
-                        }
-                    });
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // Reset counter to 0
+                    countRef.setValue(-1);
+                    Log.d(TAG, "Notice added successfully.");
                 } else {
-                    Log.e(TAG, "Failed to retrieve current count.");
+                    Log.e(TAG, "Failed to add notice: " + task.getException().getMessage());
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Database error: " + error.getMessage());
             }
         });
     }
